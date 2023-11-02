@@ -9,26 +9,21 @@
 
 param($Timer)
 
-Write-Host("hello, is this coming through?")
-
 #region Global variables
 $AzQuotaID = 'MSDN_2014-09-01'
-$ManagementGroupName = 'CHHOL-New'
-$NewManagementGroup = 'CHHOL-Sandbox'
+$SourceManagementGroupName = $env:source_management_group_name
+$TargetManagementGroup = $env:target_management_group_name
 #endregion
 
-#region get subscriptions from management Group "New"
-$AzMgmtSubs = Get-AzManagementGroupSubscription -GroupName $ManagementGroupName
-foreach ( $subscription in $AzMgmtSubs ) {
-    Write-Host($subscription.DisplayName)
-    $subscriptionID = $subscription.Id -replace '.*/'       # Retrieve subsription ID (everything behind last '/')
-    if ($subscriptionID -eq 'aff5a812-0595-4545-8b0e-527b199b4928') {
-        Write-Host($subscriptionID)
-        $subscriptionObj = Get-AzSubscription -SubscriptionId $subscriptionID 
-        $subscriptionPolicies = $subscriptionObj.SubscriptionPolicies
-        if ($subscriptionPolicies.QuotaId -EQ $AzQuotaID) {
-            New-AzManagementGroupSubscription -GroupId $NewManagementGroup -SubscriptionId $subscriptionID
-        }
+#region move subscriptions matching the Quota ID from management Group "New" to "Sandbox"
+$AzMgmtSubs = Get-AzManagementGroupSubscription -GroupName $SourceManagementGroupName
+foreach ($subscription in $AzMgmtSubs) {
+    # Write-Host($subscription.DisplayName)
+    $subscriptionID = $subscription.Id -replace '.*/'               # Retrieve subscription ID (everything behind last '/')
+    $subscriptionObj = Get-AzSubscription -SubscriptionId $subscriptionID 
+    $subscriptionPolicies = $subscriptionObj.SubscriptionPolicies
+    if ($subscriptionPolicies.QuotaId -EQ $AzQuotaID) {
+        New-AzManagementGroupSubscription -GroupId $TargetManagementGroup -SubscriptionId $subscriptionID
     }
 }
 #endregion

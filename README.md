@@ -4,7 +4,7 @@
 
 ----
 
-This is a template module. It just showcases how a module should look. This would be a short description of the module.
+This module deploys an Azure Function App, which moves every VSE Subscription from one Management Group to another, based on the Quota ID MSDN_2014_09_01.
 
 <!-- BEGIN_TF_DOCS -->
 ## Usage
