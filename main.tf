@@ -38,10 +38,19 @@ resource "azurerm_windows_function_app" "function" {
   //version                    = "~3"
 
   site_config {}
-  
+  identity {
+    type = "SystemAssigned"
+  }
   app_settings = {
     "FUNCTIONS_WORKER_RUNTIME"       = "powershell"
-    "FUNCTIONS_WORKER_RUNTIME_VERSION" = "~7"
+    "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.appi.instrumentation_key
   }
   
+}
+
+resource "azurerm_application_insights" "appi" {
+  name = var.application_insights_name
+  resource_group_name = var.resource_group_name
+  location = var.location  
+  application_type = "web"
 }

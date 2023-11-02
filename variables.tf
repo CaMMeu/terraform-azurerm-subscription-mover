@@ -26,3 +26,7 @@ variable "function_name" {
   type = string
 }
 
+variable "application_insights_name" {
+  description = "Name of the Application Insights"
+  type = string
+}
