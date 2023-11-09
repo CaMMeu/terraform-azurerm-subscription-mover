@@ -19,6 +19,12 @@ resource "azurerm_role_assignment" "source_uaa" {
   principal_id = azurerm_windows_function_app.function.identity[0].principal_id
 }
 
+resource "azurerm_role_assignment" "target_uaa" {
+  scope = var.target_management_group.id
+  role_definition_id = "${data.azurerm_subscription.current.id}${data.azurerm_role_definition.user_access_administrator.id}"
+  principal_id = azurerm_windows_function_app.function.identity[0].principal_id
+}
+
 resource "azurerm_role_assignment" "source_mgmt_group_contributor" {
   scope = var.source_management_group.id
   role_definition_id = "${data.azurerm_subscription.current.id}${data.azurerm_role_definition.management_group_contributor.id}"

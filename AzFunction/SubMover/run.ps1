@@ -15,10 +15,12 @@ $SourceManagementGroupName = $env:source_management_group_name
 $TargetManagementGroup = $env:target_management_group_name
 #endregion
 
+Write-Host($SourceManagementGroupName, $TargetManagementGroup)
+
 #region move subscriptions matching the Quota ID from management Group "New" to "Sandbox"
 $AzMgmtSubs = Get-AzManagementGroupSubscription -GroupName $SourceManagementGroupName
 foreach ($subscription in $AzMgmtSubs) {
-    # Write-Host($subscription.DisplayName)
+    Write-Host($subscription.DisplayName)
     $subscriptionID = $subscription.Id -replace '.*/'               # Retrieve subscription ID (everything behind last '/')
     $subscriptionObj = Get-AzSubscription -SubscriptionId $subscriptionID 
     $subscriptionPolicies = $subscriptionObj.SubscriptionPolicies
