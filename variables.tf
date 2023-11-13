@@ -36,7 +36,7 @@ variable "app_service_plan_name" {
   type = string
 }
 
-variable "function_name" {
+variable "function_app_name" {
   description = "Name of the function"
   type = string
 }

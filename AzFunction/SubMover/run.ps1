@@ -17,7 +17,7 @@ $TargetManagementGroup = $env:target_management_group_name
 
 Write-Host($SourceManagementGroupName, $TargetManagementGroup)
 
-#region move subscriptions matching the Quota ID from management Group "New" to "Sandbox"
+#region move subscriptions matching the Quota ID from source management group to target management group
 $AzMgmtSubs = Get-AzManagementGroupSubscription -GroupName $SourceManagementGroupName
 foreach ($subscription in $AzMgmtSubs) {
     Write-Host($subscription.DisplayName)
