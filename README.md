@@ -1,10 +1,11 @@
-# Module
-[![GitHub tag](https://img.shields.io/github/tag/qbeyond/terraform-module-template.svg)](https://registry.terraform.io/modules/qbeyond/terraform-module-template/provider/latest)
-[![License](https://img.shields.io/github/license/qbeyond/terraform-module-template.svg)](https://github.com/qbeyond/terraform-module-template/blob/main/LICENSE)
+# Azure VSE Subscription Mover
+[![GitHub tag](https://img.shields.io/github/tag/qbeyond/terraform-azurerm-subscription-mover.svg)](https://registry.terraform.io/modules/qbeyond/subscription-mover/azurerm/latest)
+[![License](https://img.shields.io/github/license/qbeyond/terraform-azurerm-subscription-mover.svg)](https://github.com/qbeyond/terraform-azurerm-subscription-mover/blob/main/LICENSE)
 
 ----
-
-This module deploys an Azure Function App, which moves every VSE Subscription from one Management Group to another, based on the Quota ID MSDN_2014_09_01.
+## Description
+This module deploys an Azure Function App with a Function, which moves every VSE Subscription from a source management group to a target management group, based on the Quota ID MSDN_2014_09_01.
+The function runs every 5 minutes.
 
 <!-- BEGIN_TF_DOCS -->
 ## Usage
