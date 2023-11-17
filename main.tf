@@ -18,8 +18,8 @@ data "azurerm_role_definition" "user_access_administrator" {
 
 resource "azurerm_role_assignment" "source_mgmt_group" {
   for_each = {
-    "user_access_admin" = data.azurerm_role_definition.user_access_administrator.id
-    "mgmt_group_contributor" = data.azurerm_role_definition.management_group_contributor.id
+    "User Access Admin"            = data.azurerm_role_definition.user_access_administrator.id
+    "Management Group Contributor" = data.azurerm_role_definition.management_group_contributor.id
   }
 
   scope              = var.source_management_group.id
@@ -27,10 +27,10 @@ resource "azurerm_role_assignment" "source_mgmt_group" {
   principal_id       = azurerm_windows_function_app.this.identity[0].principal_id
 }
 
-resource "azurerm_role_assignment" "target_uaa" {
+resource "azurerm_role_assignment" "target_mgmt_group" {
   for_each = {
-    "user_access_admin" = data.azurerm_role_definition.user_access_administrator.id
-    "mgmt_group_contributor" = data.azurerm_role_definition.management_group_contributor.id
+    "User Access Admin"            = data.azurerm_role_definition.user_access_administrator.id
+    "Management Group Contributor" = data.azurerm_role_definition.management_group_contributor.id
   }
 
   scope              = var.target_management_group.id
