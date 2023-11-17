@@ -28,11 +28,11 @@ data "azurerm_management_group" "target" {
 module "vse_subscription_mover" {
   source = "../.."
   location = "westeurope"
-  resource_group_name = "rg-SubMover-dev-02"
-  function_app_name = "func-dev-SubMover-test-02"
-  app_service_plan_name = "plan-dev-SubMover-test-02"
-  storage_account_name = "stfunchholsubmover02"
-  application_insights_name = "appi-SubMover-dev-02"
+  resource_group_name = "rg-SubMover-dev-01"
+  function_app_name = "func-dev-SubMover-test-01"
+  app_service_plan_name = "plan-dev-SubMover-test-01"
+  storage_account_name = "stfunchholsubmover01"
+  application_insights_name = "appi-SubMover-dev-01"
   source_management_group = data.azurerm_management_group.source
   target_management_group = data.azurerm_management_group.target
 }
@@ -89,7 +89,7 @@ No modules.
 | [azurerm_resource_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_role_assignment.role_assignment_storage](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_role_assignment.source_mgmt_group](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
-| [azurerm_role_assignment.target_uaa](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
+| [azurerm_role_assignment.target_mgmt_group](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/role_assignment) | resource |
 | [azurerm_service_plan.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/service_plan) | resource |
 | [azurerm_storage_account.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
 | [azurerm_storage_blob.storage_blob_function](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_blob) | resource |
