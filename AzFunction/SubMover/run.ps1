@@ -10,22 +10,20 @@
 param($Timer)
 
 #region Global variables
-$AzQuotaID = 'MSDN_2014-09-01'
-$SourceManagementGroupName = $env:source_management_group_name
-$TargetManagementGroup = $env:target_management_group_name
+$azQuotaID = 'MSDN_2014-09-01'
+$sourceManagementGroupName = $env:source_management_group_name
+$targetManagementGroup = $env:target_management_group_name
 #endregion
 
-Write-Host($SourceManagementGroupName, $TargetManagementGroup)
 
 #region move subscriptions matching the Quota ID from source management group to target management group
-$AzMgmtSubs = Get-AzManagementGroupSubscription -GroupName $SourceManagementGroupName
-foreach ($subscription in $AzMgmtSubs) {
-    Write-Host($subscription.DisplayName)
+$mgmtSubs = Get-AzManagementGroupSubscription -GroupName $sourceManagementGroupName
+foreach ($subscription in $mgmtSubs) {
     $subscriptionID = $subscription.Id -replace '.*/'               # Retrieve subscription ID (everything behind last '/')
     $subscriptionObj = Get-AzSubscription -SubscriptionId $subscriptionID 
     $subscriptionPolicies = $subscriptionObj.SubscriptionPolicies
-    if ($subscriptionPolicies.QuotaId -EQ $AzQuotaID) {
-        New-AzManagementGroupSubscription -GroupId $TargetManagementGroup -SubscriptionId $subscriptionID
+    if ($subscriptionPolicies.QuotaId -EQ $azQuotaID) {
+        New-AzManagementGroupSubscription -GroupId $targetManagementGroup -SubscriptionId $subscriptionID
     }
 }
 #endregion
