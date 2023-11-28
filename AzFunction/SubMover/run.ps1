@@ -13,6 +13,7 @@ param($Timer)
 $azQuotaID = 'MSDN_2014-09-01'
 $sourceManagementGroupName = $env:source_management_group_name
 $targetManagementGroup = $env:target_management_group_name
+$ErrorActionPreference = "Stop"
 #endregion
 
 
