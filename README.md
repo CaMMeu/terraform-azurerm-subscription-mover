@@ -10,31 +10,34 @@ The function runs every 5 minutes.
 <!-- BEGIN_TF_DOCS -->
 ## Usage
 
-It's very easy to use!
+To use this module, the source and target Management Groups you want to use for Subscription moving are required.
+The Management Groups are recommended to have the same display name as the ID for ease of use.
+
+Only the main.tf needs to be run to deploy the function app with the function, which will run immediately.
+
 ```hcl
 provider "azurerm" {
   features {}
 }
 
-
-data "azurerm_management_group" "source" {
-  name = "CHHOL-New"
+resource "azurerm_management_group" "source" {
+  name = "Test-Source"
 }
 
-data "azurerm_management_group" "target" {
-  name = "CHHOL-Sandbox"
+resource "azurerm_management_group" "target" {
+  name = "Test-Target"
 }
 
 module "vse_subscription_mover" {
-  source = "../.."
-  location = "westeurope"
-  resource_group_name = "rg-SubMover-dev-01"
-  function_app_name = "func-dev-SubMover-test-01"
-  app_service_plan_name = "plan-dev-SubMover-test-01"
-  storage_account_name = "stfunchholsubmover01"
+  source                    = "../.."
+  location                  = "westeurope"
+  resource_group_name       = "rg-SubMover-dev-01"
+  function_app_name         = "func-dev-SubMover-test-01"
+  app_service_plan_name     = "plan-dev-SubMover-test-01"
+  storage_account_name      = "stfuntestsubmover01"
   application_insights_name = "appi-SubMover-dev-01"
-  source_management_group = data.azurerm_management_group.source
-  target_management_group = data.azurerm_management_group.target
+  source_management_group   = azurerm_management_group.source
+  target_management_group   = azurerm_management_group.target
 }
 ```
 
@@ -53,9 +56,9 @@ module "vse_subscription_mover" {
 | <a name="input_function_app_name"></a> [function\_app\_name](#input\_function\_app\_name) | Name of the Azure Function App in which the function will be deployed. | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | Name of the location where the resources will be provisioned. | `string` | n/a | yes |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Name of the resource group in which to create the resources. Changing this forces new resources to be created. | `string` | n/a | yes |
-| <a name="input_source_management_group"></a> [source\_management\_group](#input\_source\_management\_group) | The source management group from which the Subscriptions will be moved from. The name used here is not the display name, it is the ID shown next to the display name in the Azure Portal Management Group view. | <pre>object({<br>    name = string<br>    id = string<br>  })</pre> | n/a | yes |
+| <a name="input_source_management_group"></a> [source\_management\_group](#input\_source\_management\_group) | The source management group from which the Subscriptions will be moved from. The name used here is not the display name, it is the ID shown next to the display name in the Azure Portal Management Group view. | <pre>object({<br>    name = string<br>    id   = string<br>  })</pre> | n/a | yes |
 | <a name="input_storage_account_name"></a> [storage\_account\_name](#input\_storage\_account\_name) | Name of the storage account used for the Azure Function App. | `string` | n/a | yes |
-| <a name="input_target_management_group"></a> [target\_management\_group](#input\_target\_management\_group) | The target management group to which the subscriptions will be moved. The name used here is not the display name, it is the ID shown next to the display name in the Azure Portal Management Group view. | <pre>object({<br>    name = string<br>    id = string<br>  })</pre> | n/a | yes |
+| <a name="input_target_management_group"></a> [target\_management\_group](#input\_target\_management\_group) | The target management group to which the subscriptions will be moved. The name used here is not the display name, it is the ID shown next to the display name in the Azure Portal Management Group view. | <pre>object({<br>    name = string<br>    id   = string<br>  })</pre> | n/a | yes |
 ## Outputs
 
 No outputs.
