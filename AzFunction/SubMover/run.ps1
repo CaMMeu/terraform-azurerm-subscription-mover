@@ -10,7 +10,7 @@
 param($Timer)
 
 #region Global variables
-$azQuotaID = 'MS-AZR-0029P' # updated from MSDN_2014-09-01
+$azQuotaID = 'MSDN_2014-09-01'
 $sourceManagementGroupName = $env:source_management_group_name
 $targetManagementGroup = $env:target_management_group_name
 $ErrorActionPreference = "Stop"
