@@ -4,8 +4,8 @@
 
 ----
 ## Description
-This module deploys an Azure Function App with a Function, which moves every VSE Subscription from a source management group to a target management group, based on the Quota ID MSDN_2014_09_01.
-The function runs every 5 minutes.
+This module deploys an Azure Function App with a Function, which moves every VSE Subscription from a source management group to a target management group, based on the Quota ID MS-AZR-0029P.
+The function runs every 5 minutes. 
 
 <!-- BEGIN_TF_DOCS -->
 ## Usage
