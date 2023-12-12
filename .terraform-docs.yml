@@ -41,7 +41,11 @@ content: |-
 
   {{ indent 0 "#" }} Usage
 
-  It's very easy to use!
+  To use this module, the source and target Management Groups you want to use for Subscription moving are required. 
+  The Management Groups are recommended to have the same display name as the ID for ease of use.
+  
+  Only the main.tf needs to be run to deploy the function app with the function, which will run immediately.
+
   ```hcl
   {{ include "examples/basic/main.tf" }}
   ```
