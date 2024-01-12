@@ -12,7 +12,7 @@ param($Timer)
 #region Global variables
 $azQuotaID = 'MSDN_2014-09-01'
 $sourceManagementGroupName = $env:source_management_group_name
-$targetManagementGroup = $env:target_management_group_name
+$targetManagementGroup =  $env:target_management_group_name
 $ErrorActionPreference = "Stop"
 #endregion
 
@@ -23,9 +23,8 @@ function Get-QAzManagementGroupSubscription {
         [string] $GroupName
     )
 
-    $apiPath = "/providers/Microsoft.Management/managementGroups/$GroupId/subscriptions?api-version=2021-04-01"
-    $apiResponse = Invoke-AzRestMethod -Method GET -Path $apiPath
-    $content = ConvertFrom-Json $apiResponse.Content
+    $apiPath = "/providers/Microsoft.Management/managementGroups/$GroupName/subscriptions?api-version=2021-04-01"
+    $content = Invoke-QAzRestMethod -Method GET -Path $apiPath
 
     return $content.value
 }
@@ -39,9 +38,39 @@ function New-QAzManagementGroupSubscription {
     )
 
     $apiPath = "/providers/Microsoft.Management/managementGroups/$GroupId/subscriptions/$($subscriptionId)?api-version=2021-04-01"
-    $apiResponse = Invoke-AzRestMethod -Method PUT -Path $apiPath
+    $content = Invoke-QAzRestMethod -Method PUT -Path $apiPath
 
-    return $apiResponse
+    return $content
+}
+
+function Invoke-QAzRestMethod {
+    param (
+        [parameter(Mandatory)]
+        [string] $Method,
+        [parameter(Mandatory)]
+        [string] $Path
+    )
+
+    $apiResponse = Invoke-AzRestMethod -Method $Method -Path $Path
+    $content = ConvertFrom-Json $apiResponse.Content
+    
+    switch ($apiResponse.StatusCode) {
+        200 { 
+            return $content
+        }
+        Default {
+            $message = "Failed to $Method $Path : $($result.StatusCode)"
+            if ($content.error.message) {
+                $message = $content.error.message
+            }
+            $exception = [Microsoft.Rest.Azure.CloudException]::new($message)
+            $cloudError = [Microsoft.Rest.Azure.CloudError]::new()
+            $cloudError.Code = $content.error.code
+            $cloudError.Message = $content.error.message
+            $exception.Body = $cloudError
+            throw $exception
+        }
+    }    
 }
 #endregion 
 
