@@ -8,10 +8,18 @@ and this module adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
  
 ### Added
  
-- Feature
- 
 ### Changed
  
 ### Removed
  
 ### Fixed
+
+## [1.0.1] - 2024-01-12
+
+### Fixed 
+
+- implemented workaround for when Microsoft.Management is not registered
+
+## [1.0.0] - 2023-12-13
+
+initial release 
