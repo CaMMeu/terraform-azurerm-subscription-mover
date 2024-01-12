@@ -1,8 +1,8 @@
 <#
 .SYNOPSIS
-    Moves VSE Subscriptions from Management Group "New" to "Sandbox"
+    Moves VSE Subscriptions from a source Management Group to another Management Group (target)
 .DESCRIPTION
-    This script moves in management group "New" created VSE Subscriptions to "Sandbox" every 5 minutes.
+    This script moves in the source Management Group created VSE Subscriptions to the target Management Group every 5 minutes.
     This is done via checking for the Quota Id, which correlates with the Offer Id for VSE Subscriptions.
 .EXAMPLE
 #>
