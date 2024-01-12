@@ -16,21 +16,48 @@ $targetManagementGroup = $env:target_management_group_name
 $ErrorActionPreference = "Stop"
 #endregion
 
+#region functions
+function Get-QAzManagementGroupSubscription {
+    param (
+        [parameter(Mandatory)]
+        [string] $GroupName
+    )
+
+    $apiPath = "/providers/Microsoft.Management/managementGroups/$GroupId/subscriptions?api-version=2021-04-01"
+    $apiResponse = Invoke-AzRestMethod -Method GET -Path $apiPath
+    $content = ConvertFrom-Json $apiResponse.Content
+
+    return $content.value
+}
+
+function New-QAzManagementGroupSubscription {
+    param (
+        [parameter(Mandatory)]
+        [string] $GroupId,
+        [parameter(Mandatory)]
+        [string] $subscriptionId
+    )
+
+    $apiPath = "/providers/Microsoft.Management/managementGroups/$GroupId/subscriptions/$($subscriptionId)?api-version=2021-04-01"
+    $apiResponse = Invoke-AzRestMethod -Method PUT -Path $apiPath
+
+    return $apiResponse
+}
+#endregion 
 
 #region move subscriptions matching the Quota ID from source management group to target management group
-$mgmtSubs = Get-AzManagementGroupSubscription -GroupName $sourceManagementGroupName
+$mgmtSubs = Get-QAzManagementGroupSubscription -GroupName $sourceManagementGroupName
 foreach ($subscription in $mgmtSubs) {
     try {
         $subscriptionID = $subscription.Id -replace '.*/'               # Retrieve subscription ID (everything behind last '/')
         $subscriptionObj = Get-AzSubscription -SubscriptionId $subscriptionID 
         $subscriptionPolicies = $subscriptionObj.SubscriptionPolicies
         if ($subscriptionPolicies.QuotaId -EQ $azQuotaID) {
-            New-AzManagementGroupSubscription -GroupId $targetManagementGroup -SubscriptionId $subscriptionID
+            New-QAzManagementGroupSubscription -GroupId $targetManagementGroup -SubscriptionId $subscriptionID
         }
     }
     catch {
         Write-Error $_ -ErrorAction Continue
     }
-    
 }
 #endregion
